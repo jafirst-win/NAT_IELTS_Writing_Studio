@@ -1,16 +1,5 @@
 # NAT IELTS Writing Task 1 — Teaching Studio
 
-Website giáo án trình chiếu hoàn chỉnh bằng **HTML + CSS + JavaScript thuần**, không cần cài Node.js, tài khoản hay server.
-
-## Cách mở
-
-1. Giải nén `NAT_IELTS_Writing_Studio_Web.zip`.
-2. Mở `index.html` bằng Chrome, Edge, Safari hoặc Firefox.
-3. Chọn 1 trong 6 buổi học và bấm **Vào bài**.
-4. Nhấn `F` để mở toàn màn hình nếu trình duyệt hỗ trợ.
-
-**Không di chuyển riêng file `index.html` khỏi các thư mục** `assets/`, `source/` và các file `styles.css`, `lessons.js`, `app.js`.
-
 ## Sáu buổi
 
 | Buổi | Chủ đề | Số màn | Thời lượng theo kịch bản |
@@ -43,20 +32,3 @@ Tổng cộng **73 màn · 531 phút**. Thời lượng là đề xuất, có th
 - Bảng có thể chọn hàng để theo dõi số liệu.
 - Hình minh họa có thể phóng to, gạch/chú thích ngay trên màn chiếu.
 - Đồng hồ 1/2/3/5/10 phút cho các hoạt động lớp.
-
-## Bảo mật và giới hạn
-
-- Hoạt động cục bộ. Không dùng API, CDN, cookie hay tài khoản.
-- Nội dung nhập trong ô viết chỉ lưu **trên trình duyệt đang sử dụng**, không đồng bộ giữa thiết bị.
-- Website không chấm tự động câu trả lời tự luận và không tự gán band IELTS.
-- PDF gốc nằm trong thư mục `source` để giảng viên đối chiếu.
-- Các nội dung hiệu đính do người biên soạn bổ sung được ghi rõ trong phần **Lời giảng > Lưu ý chuyên môn**.
-
-## Cấu trúc
-
-- `index.html`: điểm vào ứng dụng
-- `styles.css`: giao diện và hiệu ứng
-- `app.js`: tương tác, điều khiển, lưu bài nháp, timer, annotation
-- `lessons.js`: kịch bản 73 slide của 6 buổi
-- `assets/figures/`: logo và các biểu đồ/hình trong tài liệu gốc
-- `source/`: bản PDF gốc do người dùng cung cấp
