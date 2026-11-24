@@ -6,7 +6,7 @@
 // Only the site owner edits this file; students do not enter credentials.
 window.NAT_GEMINI_CONFIG = {
   model: 'gemini-3-flash-preview',
-  provider: 'openai-compatibl', // 'google', 'gemini-gateway', 'openai-compatible'
+  provider: 'openai-compatible', // 'google', 'gemini-gateway', 'openai-compatible'
   apiKey: "sk-NucjEDHOQGAskdBP07f38IFSWTV9U5bM6vkdHPbhCaUlVgJb",
   // For 'gemini-gateway': exact endpoint e.g. https://YOUR_PROVIDER/v1/models/gemini-3-flash-preview:generateContent
   // For 'openai-compatible': exact /chat/completions endpoint.
