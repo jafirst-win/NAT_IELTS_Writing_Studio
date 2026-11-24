@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f9fe">
+  <meta name="description" content="NAT IELTS Student Hub: tài liệu Writing Task 1 và 2, phòng luyện viết và phân tích bài bằng AI theo từng câu, từng từ.">
+  <title>NAT IELTS · Student Writing Hub</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<!-- SVG outline icons, no external CDN required -->
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-7h6v7"/></symbol>
+  <symbol id="i-books" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7M9 11h5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="m12 19 7-7 3 3-7 7-5 1zM18 13l-7-7 3-3 7 7"/><path d="M2 20h6M2 16h3"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8z"/><path d="m19 18 .6 1.4L21 20l-1.4.6L19 22l-.6-1.4L17 20l1.4-.6z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.8 3 9 5.2l-2 .8-2.2-1L2.5 9l1.8 1.4v3.2L2.5 15l2.3 4 2.2-1 2 .8.8 2.2h4.4l.8-2.2 2-.8 2.2 1 2.3-4-1.8-1.4v-3.2L21.5 9l-2.3-4-2.2 1-2-.8-.8-2.2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-arrowleft" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M13 4h7v7M20 4 10 14"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M5 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17l-7-4-7 4z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2zM12 9v5M12 17h.01"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 14h8M8 18h5"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16 4l4 4-11 11-5 1 1-5zM14 6l4 4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m-11 0 1 15h12l1-15M10 10v7M14 10v7"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 12 7-12 7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5v14M17 5v14"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7V3h-4M4 17v4h4"/><path d="M20 7a8 8 0 0 0-14-2M4 17a8 8 0 0 0 14 2"/></symbol>
+  <symbol id="i-stars" viewBox="0 0 24 24"><path d="m10 3 2 5 5 2-5 2-2 5-2-5-5-2 5-2zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 16l4-5 3 2 5-7"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 6-4 9-9 10-5-1-9-4-9-10V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol>
+</svg>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#home" data-go="home" aria-label="NAT IELTS Student Hub">
+      <span class="brand-logo"><img src="assets/logo.png" alt="Logo NAT IELTS"></span>
+      <span class="brand-name"><strong>NAT IELTS</strong><small>STUDENT SPACE</small></span>
+    </a>
+    <div class="sidebar-label">KHÔNG GIAN HỌC TẬP</div>
+    <nav class="main-nav" aria-label="Điều hướng">
+      <button class="nav-link active" data-go="home"><svg class="icon"><use href="#i-home"/></svg> Tổng quan</button>
+      <button class="nav-link" data-go="library"><svg class="icon"><use href="#i-books"/></svg> Thư viện tài liệu <span class="nav-pill">11</span></button>
+      <button class="nav-link" data-go="practice"><svg class="icon"><use href="#i-edit"/></svg> Phòng luyện viết</button>
+      <button class="nav-link" data-go="results"><svg class="icon"><use href="#i-sparkle"/></svg> Phân tích bằng AI</button>
+      <button class="nav-link" data-go="history"><svg class="icon"><use href="#i-history"/></svg> Bài viết đã lưu</button>
+    </nav>
+    <div class="sidebar-label" style="margin-top:26px">CÁ NHÂN</div>
+    <nav class="main-nav" aria-label="Cài đặt">
+      <button class="nav-link" data-go="settings"><svg class="icon"><use href="#i-settings"/></svg> Cài đặt AI</button>
+    </nav>
+    <div class="side-spacer"></div>
+    <div class="side-tip"><span class="tip-icon"><svg class="icon"><use href="#i-stars"/></svg></span><strong>Practice makes progress.</strong><p>Viết mỗi ngày, hiểu từng lỗi và cải thiện từng câu.</p></div>
+    <div class="side-foot">NAT IELTS · Học có hệ thống</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="topbar-start"><button id="menuBtn" class="icon-button mobile-only" aria-label="Mở menu"><svg class="icon"><use href="#i-menu"/></svg></button><div class="breadcrumb"><span>NAT IELTS</span><svg class="icon small"><use href="#i-chevron-right"/></svg><strong id="breadcrumbCurrent">Tổng quan</strong></div></div>
+      <div class="topbar-end"><span class="chip soft-blue"><svg class="icon small"><use href="#i-sun"/></svg> Learning mode</span><span class="top-avatar">NI</span></div>
+    </header>
+    <main id="mainContent" class="page-content">
+      <section class="view active" id="view-home" aria-labelledby="homeTitle">
+        <div class="welcome-line"><span class="tiny-dot"></span> LEARN · PRACTICE · IMPROVE</div>
+        <div class="hero"><div class="hero-content"><span class="hero-eyebrow"><svg class="icon small"><use href="#i-stars"/></svg> Writing Lab • Task 1 & Task 2</span><h1 id="homeTitle">Học theo lộ trình.<br><span>Viết tốt hơn mỗi ngày.</span></h1><p>Một không gian duy nhất để xem giáo trình NAT IELTS, luyện viết bài thực tế và hiểu rõ từng lỗi tiếng Anh của mình.</p><div class="hero-actions"><button class="btn primary" data-go="practice">Bắt đầu viết bài <svg class="icon small"><use href="#i-arrow"/></svg></button><button class="btn white" data-go="library"><svg class="icon small"><use href="#i-books"/></svg> Xem tài liệu</button></div></div><div class="hero-art" aria-hidden="true"><div class="art-sheet art-sheet-back"><span>WRITING TASK 1</span><i></i><i></i><i></i></div><div class="art-sheet art-sheet-front"><span class="art-circle"><svg class="icon"><use href="#i-edit"/></svg></span><b>Small steps.<br>Big progress.</b><i></i><i></i><i></i><em>Band goals ✦</em></div><div class="art-spark art-spark-one">✦</div><div class="art-spark art-spark-two">✧</div></div></div>
+        <div class="stats-grid"><div class="stat-card"><span class="stat-icon icon-blue"><svg class="icon"><use href="#i-books"/></svg></span><div><strong>11</strong><span>Chuyên đề học tập</span></div></div><div class="stat-card"><span class="stat-icon icon-purple"><svg class="icon"><use href="#i-pen"/></svg></span><div><strong id="homeDraftCount">0</strong><span>Bản nháp trên thiết bị</span></div></div><div class="stat-card"><span class="stat-icon icon-teal"><svg class="icon"><use href="#i-check-circle"/></svg></span><div><strong id="homeReviewCount">0</strong><span>Lần nhận phản hồi</span></div></div><div class="stat-card"><span class="stat-icon icon-orange"><svg class="icon"><use href="#i-clock"/></svg></span><div><strong>20 / 40</strong><span>Phút Task 1 / Task 2</span></div></div></div>
+        <div class="section-heading"><div><h2>Hôm nay học gì?</h2><p>Chọn kỹ năng và bắt đầu với một hoạt động phù hợp.</p></div></div>
+        <div class="home-path-grid"><button class="path-card" id="homeT1"><span class="path-top"><span class="tag light-blue">TASK 1</span><svg class="icon"><use href="#i-chart"/></svg></span><strong>Mô tả dữ liệu<br>và quy trình</strong><small>Line • Bar • Pie • Table • Process • Map</small><span class="path-foot">Luyện Task 1 <svg class="icon"><use href="#i-arrow"/></svg></span></button><button class="path-card path-purple" id="homeT2"><span class="path-top"><span class="tag light-purple">TASK 2</span><svg class="icon"><use href="#i-edit"/></svg></span><strong>Lập luận rõ ràng,<br>viết essay mạch lạc</strong><small>Opinion • Discussion • Problem–Solution</small><span class="path-foot">Luyện Task 2 <svg class="icon"><use href="#i-arrow"/></svg></span></button><div class="guidance-card"><span class="guidance-icon"><svg class="icon"><use href="#i-sparkle"/></svg></span><h3>Hiểu vì sao mình sai</h3><p>AI phân tích mỗi câu, collocation, cấu trúc, thì và giới từ. Nhấn vào một câu để soi từng từ.</p><button class="inline-link" data-go="results">Khám phá phản hồi <svg class="icon small"><use href="#i-arrow"/></svg></button></div></div>
+        <div class="section-heading" style="margin-top:36px"><div><h2>Tài liệu gợi ý</h2><p>Đọc kiến thức trước khi viết để tránh học thuộc máy móc.</p></div><button class="inline-link" data-go="library">Xem tất cả <svg class="icon small"><use href="#i-arrow"/></svg></button></div><div class="doc-grid home-doc-grid" id="homeDocs"></div>
+      </section>
+      <section class="view" id="view-library" aria-labelledby="libraryTitle">
+        <div class="page-heading"><div><div class="eyebrow">RESOURCE LIBRARY</div><h1 id="libraryTitle">Thư viện tài liệu</h1><p>11 cheatsheet gốc từ bộ NAT IELTS Writing Task 1 & Task 2. Đọc PDF ngay trong trình duyệt.</p></div><div class="heading-mark"><svg class="icon"><use href="#i-books"/></svg></div></div>
+        <div class="toolbar"><div class="segment" id="libraryTasks"><button class="active" data-filter="all">Tất cả <span>11</span></button><button data-filter="1">Task 1 <span>6</span></button><button data-filter="2">Task 2 <span>5</span></button></div><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="docSearch" type="search" placeholder="Tìm chủ đề, kỹ năng..." autocomplete="off" aria-label="Tìm tài liệu"></label></div>
+        <div class="doc-grid" id="libraryGrid"></div><div class="empty-state hidden" id="docsEmpty">Không tìm thấy tài liệu phù hợp.</div>
+      </section>
+      <section class="view" id="view-practice" aria-labelledby="practiceTitle">
+        <div class="page-heading compact"><div><div class="eyebrow">WRITING WORKSPACE</div><h1 id="practiceTitle">Phòng luyện viết</h1><p>Chọn đề, lập dàn ý và hoàn thiện bài viết. Bản nháp được lưu trên thiết bị này.</p></div><span class="badge-round"><svg class="icon"><use href="#i-edit"/></svg></span></div>
+        <div class="practice-layout"><div class="practice-main">
+          <div class="paper-card"><div class="paper-top"><div class="segment mini" id="practiceTasks"><button class="active" data-task="1">Academic Task 1</button><button data-task="2">Academic Task 2</button></div><div class="timer-box"><svg class="icon small"><use href="#i-clock"/></svg><strong id="timerDisplay">20:00</strong><button id="timerBtn" aria-label="Bắt đầu đồng hồ"><svg class="icon small"><use href="#i-play"/></svg></button><button id="timerReset" aria-label="Đặt lại đồng hồ"><svg class="icon small"><use href="#i-refresh"/></svg></button></div></div>
+            <label class="form-label" for="promptSelect">Chọn đề Writing</label><div class="input-row"><select id="promptSelect" class="input-select"></select><button id="promptShuffle" class="icon-button" title="Chọn đề ngẫu nhiên" aria-label="Chọn đề ngẫu nhiên"><svg class="icon"><use href="#i-refresh"/></svg></button></div>
+            <div class="question-box"><div class="question-top"><span class="eyebrow" id="promptKind">LINE GRAPH</span><button class="inline-link" id="openRelatedDoc"><svg class="icon small"><use href="#i-books"/></svg> Tài liệu liên quan</button></div><h3 id="promptTitle"></h3><p id="promptQuestion"></p><div id="promptImageWrap" class="prompt-image-wrap hidden"><img id="promptImage" alt="Biểu đồ hoặc sơ đồ của đề luyện tập"><button id="expandChart" class="img-expand">Phóng to hình <svg class="icon small"><use href="#i-external"/></svg></button></div></div>
+            <div class="editor-head"><div><h3>Bài viết của bạn</h3><p>Viết bằng tiếng Anh, bố cục các đoạn rõ ràng.</p></div><span id="saveState" class="autosave"><span></span> Đã lưu</span></div>
+            <textarea id="essayEditor" class="essay-editor" spellcheck="true" placeholder="Bắt đầu viết bài tại đây...\n\nIntroduction...\n\nOverview / Body 1..." aria-label="Bài viết của học sinh"></textarea>
+            <div class="editor-bottom"><div class="counter-label"><strong id="wordCount">0</strong> / <span id="targetCount">150</span> từ tối thiểu <span id="wordStatus" class="counter-status">Cần viết thêm</span></div><div class="action-buttons"><button class="btn subtle" id="downloadDraft"><svg class="icon small"><use href="#i-download"/></svg> Tải TXT</button><button class="btn subtle" id="clearDraft"><svg class="icon small"><use href="#i-trash"/></svg> Xóa</button><button class="btn subtle" id="generateModel"><svg class="icon small"><use href="#i-stars"/></svg> Bài mẫu AI</button><button class="btn primary" id="gradeFromEditor"><svg class="icon small"><use href="#i-sparkle"/></svg> Chấm bài bằng AI</button></div></div>
+          </div>
+        </div><aside class="practice-side"><div class="aside-panel"><div class="panel-title"><span class="aside-icon teal"><svg class="icon"><use href="#i-target"/></svg></span><div><h3>Cần đạt trong bài</h3><small id="taskChecklistSubtitle">Academic Task 1</small></div></div><div id="writingChecklist" class="checklist"></div></div><div class="aside-panel"><div class="panel-title"><span class="aside-icon purple"><svg class="icon"><use href="#i-layers"/></svg></span><div><h3>Gợi ý triển khai</h3><small>Trước khi viết câu đầu tiên</small></div></div><div id="promptGuides" class="guide-list"></div></div><div class="aside-panel vocab-panel"><div class="panel-title"><span class="aside-icon orange"><svg class="icon"><use href="#i-bookmark"/></svg></span><div><h3>Từ vựng nên cân nhắc</h3><small>Ưu tiên dùng đúng ngữ cảnh</small></div></div><div id="promptVocab" class="vocab-tags"></div></div><div class="aside-panel aside-privacy"><svg class="icon"><use href="#i-shield"/></svg><p>Bản nháp chỉ nằm trên trình duyệt. Khi chọn chấm AI, nội dung sẽ được gửi tới dịch vụ AI đã cấu hình.</p></div></aside></div>
+      </section>
+      <section class="view" id="view-results" aria-labelledby="resultsTitle"><div class="page-heading compact"><div><div class="eyebrow">WRITING FEEDBACK</div><h1 id="resultsTitle">Phân tích bài viết</h1><p>Điểm ước lượng, giải thích theo từng câu và chế độ soi từng từ.</p></div><button class="btn outline" data-go="practice"><svg class="icon small"><use href="#i-arrowleft"/></svg> Quay lại bài viết</button></div><div id="resultsContent"></div></section>
+      <section class="view" id="view-history" aria-labelledby="historyTitle"><div class="page-heading compact"><div><div class="eyebrow">MY WORK</div><h1 id="historyTitle">Bài viết đã lưu</h1><p>Lịch sử và điểm ước lượng lưu trên trình duyệt của thiết bị này.</p></div><span class="badge-round"><svg class="icon"><use href="#i-history"/></svg></span></div><div id="historyList"></div></section>
+      <section class="view" id="view-settings" aria-labelledby="settingsTitle"><div class="page-heading compact"><div><div class="eyebrow">AI CONNECTION</div><h1 id="settingsTitle">Cài đặt chấm bài AI</h1><p>Kết nối website tĩnh với Cloudflare Worker để chấm thực tế. Không nhúng OpenAI API key vào HTML.</p></div><span class="badge-round"><svg class="icon"><use href="#i-settings"/></svg></span></div><div class="settings-layout"><div class="settings-card"><div class="panel-title"><span class="aside-icon teal"><svg class="icon"><use href="#i-shield"/></svg></span><div><h3>Kết nối máy chấm</h3><small>Giáo viên cấu hình một lần, học sinh nhập mã lớp</small></div></div><label class="form-label" for="apiEndpoint">Worker endpoint URL</label><input class="text-input" id="apiEndpoint" type="url" placeholder="https://nat-ielts-grader.ten-ban.workers.dev" autocomplete="url"><p class="form-hint">Lấy từ Cloudflare sau khi triển khai file <code>worker/worker.js</code>.</p><label class="form-label" for="classCode">Mã truy cập lớp (không phải API key)</label><input class="text-input" id="classCode" type="password" placeholder="Nhập mã do giáo viên cấp" autocomplete="off"><p class="form-hint">Mã chỉ được giữ trong phiên duyệt web. API key lưu trong Cloudflare Worker Secret.</p><div class="settings-actions"><button class="btn primary" id="saveSettings"><svg class="icon small"><use href="#i-check"/></svg> Lưu kết nối</button><button class="btn outline" id="testConnection"><svg class="icon small"><use href="#i-refresh"/></svg> Kiểm tra Worker</button></div><div id="connectionFeedback" class="connection-feedback" role="status"></div></div><div class="settings-card tip-settings"><span class="aside-icon blue"><svg class="icon"><use href="#i-info"/></svg></span><h3>AI không đồng nghĩa với giám khảo chính thức</h3><p>Điểm Band chỉ là đánh giá tham khảo theo bốn tiêu chí. AI có thể bỏ sót hoặc diễn giải sai lỗi; hãy đối chiếu với giáo viên khi có nhận xét gây tranh cãi.</p><hr><h3>Chế độ học thử không cần API</h3><p>Nhấn <strong>“Xem bài chấm minh họa”</strong> trong trang Phân tích để khám phá giao diện. Đây là dữ liệu mô phỏng, không phải chấm bài bạn viết.</p><hr><p class="mini-note">Tài liệu và giao diện web hoạt động offline. Riêng tính năng chấm AI thật cần Internet và dịch vụ AI có thể phát sinh chi phí.</p></div></div></section>
+    </main>
+    <footer class="site-footer"><span>© NAT IELTS Student Space</span><span>Học có hệ thống · Viết có phản hồi</span><a href="../index.html" target="_blank" rel="noopener">Website giáo viên <svg class="icon small"><use href="#i-external"/></svg></a></footer>
+  </div>
+</div>
+<div class="drawer-backdrop" id="navBackdrop"></div>
+<dialog class="doc-modal" id="pdfModal"><div class="modal-head"><div><span class="eyebrow" id="modalDocType"></span><h3 id="modalDocTitle">Tài liệu NAT IELTS</h3></div><div class="modal-actions"><a id="pdfDownload" class="btn outline" target="_blank" rel="noopener"><svg class="icon small"><use href="#i-external"/></svg> Mở trang riêng</a><button id="pdfClose" class="icon-button" aria-label="Đóng"><svg class="icon"><use href="#i-x"/></svg></button></div></div><div class="pdf-modal-body"><iframe id="pdfFrame" loading="lazy" title="Xem giáo trình PDF"></iframe></div><div class="modal-footer"><svg class="icon small"><use href="#i-info"/></svg> Nếu thiết bị không hiển thị PDF, chọn “Mở trang riêng” để xem và tải tài liệu.</div></dialog>
+<dialog class="image-modal" id="imageModal"><div class="image-modal-bar"><strong>Phóng to hình đề Writing</strong><button class="icon-button" id="imageClose" aria-label="Đóng"><svg class="icon"><use href="#i-x"/></svg></button></div><img id="largeImage" alt="Hình biểu đồ phóng to"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div><div id="busy" class="busy-overlay hidden" role="status" aria-live="polite"><div class="busy-card"><span class="busy-spinner"></span><strong id="busyText">AI đang đọc bài viết...</strong><p>Đang phân tích tiêu chí, cách dùng từ và cấu trúc. Vui lòng giữ trang mở.</p></div></div>
+</body>
+</html>
