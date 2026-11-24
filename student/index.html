@@ -9,6 +9,8 @@
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <script defer src="data.js"></script>
+  <script defer src="config.js"></script>
+  <script defer src="direct-gemini.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -66,7 +68,7 @@
     </nav>
     <div class="sidebar-label" style="margin-top:26px">CÁ NHÂN</div>
     <nav class="main-nav" aria-label="Cài đặt">
-      <button class="nav-link" data-go="settings"><svg class="icon"><use href="#i-settings"/></svg> Cài đặt AI</button>
+      <button class="nav-link" data-go="settings"><svg class="icon"><use href="#i-settings"/></svg> Kết nối AI</button>
     </nav>
     <div class="side-spacer"></div>
     <div class="side-tip"><span class="tip-icon"><svg class="icon"><use href="#i-stars"/></svg></span><strong>Practice makes progress.</strong><p>Viết mỗi ngày, hiểu từng lỗi và cải thiện từng câu.</p></div>
@@ -105,9 +107,21 @@
       </section>
       <section class="view" id="view-results" aria-labelledby="resultsTitle"><div class="page-heading compact"><div><div class="eyebrow">WRITING FEEDBACK</div><h1 id="resultsTitle">Phân tích bài viết</h1><p>Điểm ước lượng, giải thích theo từng câu và chế độ soi từng từ.</p></div><button class="btn outline" data-go="practice"><svg class="icon small"><use href="#i-arrowleft"/></svg> Quay lại bài viết</button></div><div id="resultsContent"></div></section>
       <section class="view" id="view-history" aria-labelledby="historyTitle"><div class="page-heading compact"><div><div class="eyebrow">MY WORK</div><h1 id="historyTitle">Bài viết đã lưu</h1><p>Lịch sử và điểm ước lượng lưu trên trình duyệt của thiết bị này.</p></div><span class="badge-round"><svg class="icon"><use href="#i-history"/></svg></span></div><div id="historyList"></div></section>
-      <section class="view" id="view-settings" aria-labelledby="settingsTitle"><div class="page-heading compact"><div><div class="eyebrow">AI CONNECTION</div><h1 id="settingsTitle">Cài đặt chấm bài AI</h1><p>Kết nối website tĩnh với Cloudflare Worker để chấm thực tế. Không nhúng OpenAI API key vào HTML.</p></div><span class="badge-round"><svg class="icon"><use href="#i-settings"/></svg></span></div><div class="settings-layout"><div class="settings-card"><div class="panel-title"><span class="aside-icon teal"><svg class="icon"><use href="#i-shield"/></svg></span><div><h3>Kết nối máy chấm</h3><small>Giáo viên cấu hình một lần, học sinh nhập mã lớp</small></div></div><label class="form-label" for="apiEndpoint">Worker endpoint URL</label><input class="text-input" id="apiEndpoint" type="url" placeholder="https://nat-ielts-grader.ten-ban.workers.dev" autocomplete="url"><p class="form-hint">Lấy từ Cloudflare sau khi triển khai file <code>worker/worker.js</code>.</p><label class="form-label" for="classCode">Mã truy cập lớp (không phải API key)</label><input class="text-input" id="classCode" type="password" placeholder="Nhập mã do giáo viên cấp" autocomplete="off"><p class="form-hint">Mã chỉ được giữ trong phiên duyệt web. API key lưu trong Cloudflare Worker Secret.</p><div class="settings-actions"><button class="btn primary" id="saveSettings"><svg class="icon small"><use href="#i-check"/></svg> Lưu kết nối</button><button class="btn outline" id="testConnection"><svg class="icon small"><use href="#i-refresh"/></svg> Kiểm tra Worker</button></div><div id="connectionFeedback" class="connection-feedback" role="status"></div></div><div class="settings-card tip-settings"><span class="aside-icon blue"><svg class="icon"><use href="#i-info"/></svg></span><h3>AI không đồng nghĩa với giám khảo chính thức</h3><p>Điểm Band chỉ là đánh giá tham khảo theo bốn tiêu chí. AI có thể bỏ sót hoặc diễn giải sai lỗi; hãy đối chiếu với giáo viên khi có nhận xét gây tranh cãi.</p><hr><h3>Chế độ học thử không cần API</h3><p>Nhấn <strong>“Xem bài chấm minh họa”</strong> trong trang Phân tích để khám phá giao diện. Đây là dữ liệu mô phỏng, không phải chấm bài bạn viết.</p><hr><p class="mini-note">Tài liệu và giao diện web hoạt động offline. Riêng tính năng chấm AI thật cần Internet và dịch vụ AI có thể phát sinh chi phí.</p></div></div></section>
+      <section class="view" id="view-settings" aria-labelledby="settingsTitle">
+        <div class="page-heading compact"><div><div class="eyebrow">GEMINI AI · NAT IELTS</div><h1 id="settingsTitle">Kết nối chấm bài tự động</h1><p>Học sinh không cần đăng nhập AI, không phải nhập API key hoặc mã lớp.</p></div><span class="badge-round"><svg class="icon"><use href="#i-sparkle"/></svg></span></div>
+        <div class="settings-layout">
+          <div class="settings-card">
+            <div class="panel-title"><span class="aside-icon teal"><svg class="icon"><use href="#i-shield"/></svg></span><div><h3>Gemini được tích hợp sẵn</h3><small>Đã cài sẵn ở phía mã nguồn website</small></div></div>
+            <p id="aiModeText" class="form-hint">Website gọi Gemini trực tiếp từ trình duyệt, không dùng Vercel hoặc Worker.</p>
+            <div class="ai-managed"><span class="ai-managed-mark"><svg class="icon"><use href="#i-check-circle"/></svg></span><div><strong>Model <span id="aiModelText">gemini-3-flash-preview</span></strong><small>Chấm bài · Phân tích từng câu · Soi từng từ · Viết bài mẫu</small></div></div>
+            <div class="settings-actions"><button class="btn primary" id="testConnection"><svg class="icon small"><use href="#i-refresh"/></svg> Kiểm tra kết nối AI</button><button class="btn outline" data-go="practice"><svg class="icon small"><use href="#i-edit"/></svg> Vào phòng luyện viết</button></div>
+            <div id="connectionFeedback" class="connection-feedback" role="status"></div>
+          </div>
+          <div class="settings-card tip-settings"><span class="aside-icon blue"><svg class="icon"><use href="#i-info"/></svg></span><h3>Kết quả AI là nhận xét học tập</h3><p>Band chỉ là ước lượng dựa trên bài viết và tiêu chí IELTS, không thay thế điểm thi thật hay phản hồi của giáo viên.</p><hr><h3>Quyền riêng tư</h3><p>Bài nháp lưu trên chính thiết bị. Khi nhấn chấm hoặc tạo bài mẫu, đề bài, bài viết và biểu đồ liên quan được gửi trực tiếp từ trình duyệt đến nhà cung cấp AI. API key trong trang công khai có thể bị xem và sử dụng bởi người khác.</p><hr><h3>Thử trước khi dùng AI</h3><p>Vào mục Phân tích bài viết để xem kết quả minh họa. Bản này được gắn nhãn mô phỏng, không phải AI chấm thật.</p></div>
+        </div>
+      </section>
     </main>
-    <footer class="site-footer"><span>© NAT IELTS Student Space</span><span>Học có hệ thống · Viết có phản hồi</span><a href="../index.html" target="_blank" rel="noopener">Website giáo viên <svg class="icon small"><use href="#i-external"/></svg></a></footer>
+    <footer class="site-footer"><span>© NAT IELTS Student Space</span><span>Học có hệ thống · Viết có phản hồi</span><a href="https://jafirst-win.github.io/NAT_IELTS_Writing_Studio/" target="_blank" rel="noopener">Website giáo viên <svg class="icon small"><use href="#i-external"/></svg></a></footer>
   </div>
 </div>
 <div class="drawer-backdrop" id="navBackdrop"></div>

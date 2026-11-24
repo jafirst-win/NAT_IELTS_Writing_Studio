@@ -11,14 +11,14 @@ const json = (s, fallback) => {try{return JSON.parse(s);}catch(e){return fallbac
 const WORDS = (s) => (String(s||'').trim().match(/\b[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*\b/gu)||[]).length;
 const short = (s,n=96) => s.length>n ? s.slice(0,n-1)+'…' : s;
 const labelFor = (t) => t===1 ? 'Academic Task 1' : 'Academic Task 2';
-const state = {page:'home',libraryFilter:'all',task:1,promptId:'t1-phone',result:null,history:json(get('history','[]'),[]),endpoint:get('endpoint'),classCode:'',timer:1200,timerRunning:false,timerTick:null,timerTask:1,toastTimeout:null,saveTimeout:null,model:null,busy:false};
+const state = {page:'home',libraryFilter:'all',task:1,promptId:'t1-phone',result:null,history:json(get('history','[]'),[]),timer:1200,timerRunning:false,timerTick:null,timerTask:1,toastTimeout:null,saveTimeout:null,model:null,busy:false};
 function navigate(page){
   if(!['home','library','practice','results','history','settings'].includes(page))page='home';
   if(state.page==='practice' && page!=='practice')saveDraftNow();
   state.page=page;
   for (const el of document.querySelectorAll('.view'))el.classList.toggle('active',el.id==='view-'+page);
   for (const el of document.querySelectorAll('.nav-link'))el.classList.toggle('active',el.dataset.go===page);
-  $('breadcrumbCurrent').textContent=({home:'Tổng quan',library:'Thư viện',practice:'Phòng luyện viết',results:'Phân tích bằng AI',history:'Bài viết đã lưu',settings:'Cài đặt AI'})[page];
+  $('breadcrumbCurrent').textContent=({home:'Tổng quan',library:'Thư viện',practice:'Phòng luyện viết',results:'Phân tích bằng AI',history:'Bài viết đã lưu',settings:'Kết nối AI'})[page];
   $('sidebar').classList.remove('open');$('navBackdrop').classList.remove('open');
   if(page==='home')renderHomeStats(); if(page==='history')renderHistory(); if(page==='results')renderResults();
   window.scrollTo({top:0,behavior:'instant'});
@@ -79,16 +79,10 @@ function resetTimer(min){clearInterval(state.timerTick);state.timerTick=null;sta
 function renderTimer(){const m=Math.floor(state.timer/60),s=state.timer%60;$('timerDisplay').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');$('timerBtn').innerHTML=icon(state.timerRunning?'pause':'play');$('timerBtn').ariaLabel=state.timerRunning?'Tạm dừng đồng hồ':'Bắt đầu đồng hồ';document.querySelector('.timer-box').classList.toggle('running',state.timerRunning);}
 function downloadText(text,filename,mime='text/plain;charset=utf-8'){const blob=new Blob([text],{type:mime});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function setBusy(show,text='AI đang đọc và phân tích bài viết...'){state.busy=show;$('busy').classList.toggle('hidden',!show);$('busyText').textContent=text;}
-function endpointUrl(path){return state.endpoint.replace(/\/+$/,'')+'/'+path.replace(/^\//,'');}
 async function imageForPrompt(p){if(!p?.image)return '';try{const r=await fetch(p.image);if(!r.ok)throw Error('Cannot load chart');const blob=await r.blob();if(blob.size>1600000)return '';return await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);});}catch(e){return '';}}
-async function aiCall(payload){if(!state.endpoint){navigate('settings');toast('Cần nhập Worker endpoint trước khi chấm AI thật.',true);throw new Error('Chưa cấu hình Worker endpoint.');}
- if(!state.classCode){navigate('settings');toast('Nhập mã truy cập lớp trước khi chấm AI.',true);throw new Error('Chưa có mã truy cập lớp.');}
- let response;
- try{response=await fetch(endpointUrl('api/grade'),{method:'POST',headers:{'Content-Type':'application/json','X-Class-Code':state.classCode},body:JSON.stringify(payload)});}catch(e){throw new Error('Không kết nối được Worker. Hãy kiểm tra URL, Internet và cấu hình CORS.');}
- let data;try{data=await response.json();}catch(e){throw new Error('Worker trả về dữ liệu không hợp lệ.');}
- if(!response.ok)throw new Error(String(data.error||`Lỗi máy chấm: ${response.status}`));
- if(!data.data||typeof data.data!=='object')throw new Error('Không nhận được kết quả phân tích JSON từ AI.');
- return data.data;
+async function aiCall(payload){
+ if(!window.NAT_GEMINI_DIRECT)throw Error('Chưa tải được bộ gọi Gemini trực tiếp. Hãy tải lại trang.');
+ return await window.NAT_GEMINI_DIRECT.call(payload);
 }
 function validateWriting(){const essay=$('essayEditor').value.trim();if(WORDS(essay)<25){toast('Hãy viết ít nhất 25 từ để AI có đủ dữ liệu phân tích.',true);return null;}return essay;}
 async function gradeEssay(){if(state.busy)return;const essay=validateWriting();if(!essay)return;
@@ -134,11 +128,25 @@ function renderHomeStats(){let n=0;for(const p of D.prompts)if(get('draft_'+p.id
 function renderHistory(){const root=$('historyList');const saved= D.prompts.filter(p=>get('draft_'+p.id).trim());if(!saved.length&&!state.history.length){root.innerHTML=`<div class="review-empty"><div class="large-symbol">${icon('history')}</div><h2>Chưa có bài viết nào</h2><p>Hãy vào Phòng luyện viết để bắt đầu một bài mới. Bản nháp của bạn sẽ tự động lưu trên thiết bị này.</p><button class="btn primary" data-go="practice">Đi tới phòng luyện viết ${icon('arrow')}</button></div>`;return;}
  root.innerHTML=`<div class="result-panel"><h3>Bản nháp (${saved.length})</h3><p class="panel-sub">Nhấn Tiếp tục để mở lại bài viết.</p>${saved.map(p=>`<div class="history-card"><div><span class="eyebrow">TASK ${p.task}</span><h3>${esc(p.title)}</h3><p>${WORDS(get('draft_'+p.id))} từ · lưu ở trình duyệt</p></div><button class="btn outline" data-resume="${p.id}">${icon('edit')} Tiếp tục</button></div>`).join('')||'<p>Không có bản nháp.</p>'}</div><div class="result-panel"><h3>Phản hồi AI (${state.history.length})</h3>${state.history.map((h,i)=>{const p=D.prompts.find(p=>p.id===h.promptId);return `<div class="history-card"><div><span class="eyebrow">TASK ${h.review?.task||p?.task||1} · ${new Date(h.createdAt).toLocaleString('vi-VN')}</span><h3>${esc(p?.title||'Bài đã chấm')}</h3><p>${WORDS(h.essay||'')} từ</p></div><div class="history-tools"><span class="history-badge">Band ${esc(h.review?.overall_band??'—')}</span><button class="btn outline" data-reopen="${i}">Xem lại</button><button class="btn subtle" data-remove-review="${i}" title="Xóa phản hồi">${icon('trash')}</button></div></div>`;}).join('')||'<p>Chưa có lượt chấm.</p>'}</div>`;}
 function getReviewText(){const r=state.result;if(!r)return'';return [`NAT IELTS — AI WRITING REVIEW (${r.demo?'MINH HOA':'THAM KHAO'})`,`Task: ${r.task}; band: ${r.overall_band}`,r.overall_feedback_vi||'',...rubricDetails(r).map(([id,name,val])=>`${name}: ${val?.band||'?'} — ${val?.summary_vi||''}`),...((r.sentences||[]).flatMap(s=>[`\nCau ${s.index||''}: ${s.original}`,`Sua: ${s.corrected}`,...(s.issues||[]).map(i=>`[${i.category}] ${i.quote} -> ${i.correction}\nVi sao: ${i.problem_vi}\nQuy tac: ${i.rule_vi}\nGiai thich: ${i.explanation_vi}`)])),...((r.vocabulary||[]).map(v=>`${v.original} -> ${v.better}: ${v.meaning_vi} (${v.usage_vi})`))].join('\n');}
-function settingsLoad(){$('apiEndpoint').value=state.endpoint;$('classCode').value=state.classCode;}
-function saveSettings(){const url=$('apiEndpoint').value.trim(),code=$('classCode').value.trim();if(!url){toast('Bạn cần nhập URL Cloudflare Worker.',true);return;}
- try{const u=new URL(url);const local=/^localhost$|^127\.0\.0\.1$/i.test(u.hostname);if(u.protocol!=='https:'&&!(u.protocol==='http:'&&local))throw Error();}catch(e){toast('Worker URL cần bắt đầu bằng https:// (hoặc http://localhost).',true);return;}
- state.endpoint=url.replace(/\/+$/,'');state.classCode=code;set('endpoint',state.endpoint);try{sessionStorage.setItem(STORE+'class_code',code);}catch(e){}$('connectionFeedback').className='connection-feedback ok';$('connectionFeedback').textContent='Đã lưu cấu hình. Bạn có thể kiểm tra kết nối Worker.';toast('Đã lưu địa chỉ máy chấm và mã lớp cho phiên hiện tại.');}
-async function testConnection(){if(!$('apiEndpoint').value.trim()){toast('Nhập endpoint trước khi thử kết nối.',true);return;}saveSettings();try{let response=await fetch(endpointUrl('api/health'));const v=await response.json();if(!response.ok)throw Error(v.error||`HTTP ${response.status}`);$('connectionFeedback').className='connection-feedback ok';$('connectionFeedback').textContent=v.ready?'Worker đã hoạt động. Bạn có thể chấm AI với mã lớp hợp lệ.':'Worker đang chạy nhưng chưa cấu hình đủ bí mật để chấm.';}catch(e){$('connectionFeedback').className='connection-feedback err';$('connectionFeedback').textContent='Không kiểm tra được Worker: '+e.message;}}
+function settingsLoad(){
+ const el=$('aiModeText');
+ if(el)el.textContent='Website dùng Gemini trực tiếp từ JavaScript trên GitHub Pages. Học sinh không phải nhập mã. Key trong mã nguồn là công khai.';
+ const model=$('aiModelText');if(model)model.textContent=window.NAT_GEMINI_CONFIG?.model||'gemini-3-flash-preview';
+ const f=$('connectionFeedback');if(f){
+  f.className='connection-feedback';
+  if(!window.NAT_GEMINI_DIRECT?.configured()){
+   f.className='connection-feedback err';f.textContent='Chưa có API key hoặc địa chỉ API của nhà cung cấp không hợp lệ trong file config.js.';
+  } else {
+   f.textContent='Đã nạp cấu hình AI. Nhấn “Kiểm tra kết nối AI” để xác nhận key và model có hoạt động thật hay không.';
+  }
+ }
+}
+async function testConnection(){
+ const f=$('connectionFeedback');f.className='connection-feedback';f.textContent='Đang kiểm tra kết nối thực tế tới model Gemini...';
+ try{const r=await window.NAT_GEMINI_DIRECT.ping();
+  f.className='connection-feedback ok';f.textContent='Kết nối thành công ('+(window.NAT_GEMINI_CONFIG?.model||'Gemini')+'). '+(r.note||'');
+ }catch(e){f.className='connection-feedback err';f.textContent='Chưa thể sử dụng AI thật. '+e.message;}
+}
 function bindEvents(){document.addEventListener('click',async(e)=>{
  const nav=e.target.closest('[data-go]');if(nav){e.preventDefault();navigate(nav.dataset.go);return;}
  const prev=e.target.closest('[data-preview]');if(prev){openDoc(prev.dataset.preview);return;}
@@ -167,12 +175,12 @@ function bindEvents(){document.addEventListener('click',async(e)=>{
  $('pdfClose').addEventListener('click',()=>{$('pdfModal').close();$('pdfFrame').src='about:blank';});$('imageClose').addEventListener('click',()=>$('imageModal').close());
  $('pdfModal').addEventListener('close',()=>$('pdfFrame').src='about:blank');
  $('homeT1').addEventListener('click',()=>{setTask(1);navigate('practice');});$('homeT2').addEventListener('click',()=>{setTask(2);navigate('practice');});
- $('saveSettings').addEventListener('click',saveSettings);$('testConnection').addEventListener('click',testConnection);
+ $('testConnection').addEventListener('click',testConnection);
  $('menuBtn').addEventListener('click',()=>{$('sidebar').classList.toggle('open');$('navBackdrop').classList.toggle('open');});
  $('navBackdrop').addEventListener('click',()=>{$('sidebar').classList.remove('open');$('navBackdrop').classList.remove('open');});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('sidebar').classList.remove('open');$('navBackdrop').classList.remove('open');}const t=e.target;if((e.key==='Enter'||e.key===' ')&&t?.hasAttribute?.('data-toggle-sentence')){e.preventDefault();t.click();}});
  window.addEventListener('hashchange',()=>{const p=location.hash.slice(1);if(p&&p!==state.page)navigate(p);});
 }
-function init(){try{state.classCode=sessionStorage.getItem(STORE+'class_code')||'';}catch(e){}bindEvents();renderDocs();renderPractice();resetTimer(20);settingsLoad();renderHomeStats();const hash=location.hash.slice(1);navigate(hash||'home');}
+function init(){bindEvents();renderDocs();renderPractice();resetTimer(20);settingsLoad();renderHomeStats();const hash=location.hash.slice(1);navigate(hash||'home');}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
